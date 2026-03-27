@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studiegids – Overstromingen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean: #0a1628;
+    --deep: #061020;
+    --wave: #0e4d7a;
+    --teal: #00bfae;
+    --foam: #e0f7f5;
+    --amber: #f5a623;
+    --coral: #e05c5c;
+    --text: #d6eaf8;
+    --muted: #7fa8c9;
+    --card: rgba(14,77,122,0.25);
+    --border: rgba(0,191,174,0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ocean);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── ANIMATED BACKGROUND ── */
+  .bg-layer {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 80%, rgba(0,80,120,0.45) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 90% 20%, rgba(0,191,174,0.12) 0%, transparent 65%),
+      linear-gradient(180deg, #061020 0%, #0a1e38 50%, #061020 100%);
+  }
+
+  .wave-svg {
+    position: fixed; bottom: 0; left: 0; width: 100%; z-index: 0; opacity: 0.18;
+    animation: waveShift 14s ease-in-out infinite alternate;
+  }
+  @keyframes waveShift { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
+
+  /* ── LAYOUT ── */
+  .page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 72px 0 48px;
+    text-align: center;
+    animation: fadeUp 0.9s ease both;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-bottom: 22px;
+    opacity: 0.85;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 30%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 18px;
+  }
+  .hero p {
+    max-width: 500px;
+    margin: 0 auto 36px;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  /* ── LEERDOELEN ROW ── */
+  .leerdoelen-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 64px;
+    animation: fadeUp 0.9s 0.15s ease both;
+  }
+  .ld-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .ld-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--teal);
+    box-shadow: 0 12px 40px rgba(0,191,174,0.15);
+  }
+  .ld-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--teal);
+    opacity: 0.6;
+    line-height: 1;
+  }
+  .ld-text {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .ld-arrow {
+    font-size: 0.75rem;
+    color: var(--teal);
+    align-self: flex-end;
+    margin-top: auto;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 56px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 26px;
+  }
+  .section-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .icon-red   { background: rgba(224,92,92,0.15); border: 1px solid rgba(224,92,92,0.3); }
+  .icon-blue  { background: rgba(0,120,200,0.15); border: 1px solid rgba(0,120,200,0.3); }
+  .icon-teal  { background: rgba(0,191,174,0.12); border: 1px solid rgba(0,191,174,0.3); }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .section-sub { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+
+  /* ── CONTENT CARDS ── */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card-grid.triple { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.single { grid-template-columns: 1fr; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+  .card-title {
+    font-weight: 500;
+    font-size: 0.92rem;
+    color: var(--teal);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .card-body {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text);
+    opacity: 0.85;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: linear-gradient(135deg, rgba(0,191,174,0.1), rgba(0,80,160,0.2));
+    border-left: 3px solid var(--teal);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .highlight strong { color: var(--teal); }
+
+  /* ── DEFINITIE BOX ── */
+  .definitie {
+    background: rgba(245,166,35,0.08);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 14px 0;
+  }
+  .definitie .def-label {
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 8px; font-weight: 500;
+  }
+  .definitie p { font-size: 0.92rem; line-height: 1.7; }
+  .definitie strong { color: var(--amber); }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 18px 0;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 100px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 16px 14px;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    position: relative;
+  }
+  .flow-step:first-child { border-radius: 12px 0 0 12px; }
+  .flow-step:last-child  { border-radius: 0 12px 12px 0; }
+  .flow-step .step-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .flow-step .step-label { color: var(--teal); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .flow-arrow {
+    display: flex; align-items: center; padding: 0 4px;
+    color: var(--teal); font-size: 1.1rem; flex-shrink: 0;
+  }
+
+  /* ── GEVOLGEN TAG LIST ── */
+  .tag-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .tag {
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid;
+  }
+  .tag-red   { background: rgba(224,92,92,0.12);  border-color: rgba(224,92,92,0.35);  color: #f49898; }
+  .tag-amber { background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.35); color: #f5c85a; }
+  .tag-teal  { background: rgba(0,191,174,0.10);  border-color: rgba(0,191,174,0.35);  color: #6ee8df; }
+  .tag-blue  { background: rgba(0,120,220,0.12);  border-color: rgba(0,120,220,0.35);  color: #82c8f5; }
+
+  /* ── KUST SECTION: VISUAL ── */
+  .kust-visual {
+    position: relative;
+    background: linear-gradient(180deg, rgba(0,60,120,0.4) 0%, rgba(0,30,80,0.6) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 22px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .sea-level-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--teal), #0077cc);
+    margin: 12px 0 6px;
+    position: relative;
+    transition: width 0.6s;
+  }
+  .sea-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 14px; }
+
+  /* ── QUIZ ── */
+  .quiz-wrap { margin-top: 64px; }
+  .quiz-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; margin-bottom: 20px;
+    text-align: center;
+  }
+  .quiz-q {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 22px;
+    margin-bottom: 16px;
+  }
+  .quiz-q p { font-size: 0.95rem; margin-bottom: 14px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    background: rgba(14,77,122,0.15);
+    border: 1px solid rgba(0,191,174,0.15);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .quiz-opt:hover { background: rgba(0,191,174,0.12); border-color: var(--teal); }
+  .quiz-opt.correct { background: rgba(0,191,174,0.2); border-color: var(--teal); color: var(--teal); }
+  .quiz-opt.wrong   { background: rgba(224,92,92,0.2); border-color: var(--coral); color: #f49898; }
+  .quiz-feedback { font-size: 0.8rem; margin-top: 10px; padding: 8px 14px; border-radius: 8px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok  { background: rgba(0,191,174,0.1); color: var(--teal); }
+  .quiz-feedback.nok { background: rgba(224,92,92,0.1); color: #f49898; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 32px 0 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+    opacity: 0.6;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 620px) {
+    .leerdoelen-row { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    .card-grid.triple { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .flow-step { border-radius: 10px !important; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<svg class="wave-svg" viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,60 C200,100 400,20 720,60 C1040,100 1240,20 1440,60 L1440,120 L0,120 Z" fill="#00bfae"/>
+</svg>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Aardrijkskunde · Studiegids</div>
+    <h1>Overstromingen</h1>
+    <p>Begrijp de oorzaken, gevolgen en patronen van overstromingen — van piekafvoer tot kustgebieden.</p>
+  </div>
+
+  <!-- LEERDOELEN -->
+  <div class="leerdoelen-row">
+    <a class="ld-card" href="#gevolgen">
+      <div class="ld-num">01</div>
+      <div class="ld-text">Gevolgen van overstromingen kennen</div>
+      <div class="ld-arrow">Ga naar ↓</div>
+    </a>
+    <a class="ld-card" href="#piekafvoer">
+      <div class="ld-num">02</div>
+      <div class="ld-text">Piekafvoer uitleggen & het ontstaan begrijpen</div>
+      <div class="ld-arrow">Ga naar ↓</div>
+    </a>
+    <a class="ld-card" href="#kust">
+      <div class="ld-num">03</div>
+      <div class="ld-text">Waarom kustgebieden vaker overstromen</div>
+      <div class="ld-arrow">Ga naar ↓</div>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTIE 1 – GEVOLGEN
+  ═══════════════════════════════════════════ -->
+  <div class="section" id="gevolgen">
+    <div class="section-header">
+      <div class="section-icon icon-red">🌊</div>
+      <div>
+        <div class="section-sub">Leerdoel 1</div>
+        <h2>Gevolgen van Overstromingen</h2>
+      </div>
+    </div>
+
+    <div class="highlight">
+      Een overstroming ontstaat wanneer water een gebied bedekt dat normaal droogstaat. De gevolgen zijn <strong>direct en indirect</strong> en kunnen mensen, dieren, en de omgeving treffen.
+    </div>
+
+    <div class="card-grid" style="margin-top:16px;">
+      <div class="card">
+        <div class="card-title">❤️ Menselijke gevolgen</div>
+        <div class="card-body">
+          Slachtoffers en gewonden, ontheemde mensen die hun huis moeten verlaten, gebrek aan drinkwater en voedsel, verspreiding van ziekten door vervuild water.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏚️ Materiële schade</div>
+        <div class="card-body">
+          Huizen, wegen, bruggen en fabrieken raken beschadigd of vernietigd. Landbouwgrond en gewassen gaan verloren. Herstelkosten kunnen miljarden euro's bedragen.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🌿 Ecologische gevolgen</div>
+        <div class="card-body">
+          Erosie van grond, verontreiniging van bodem en water door meegevoerd vuil en chemicaliën. Maar ook: sedimentafzetting kan grond tijdelijk vruchtbaarder maken.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">💰 Economische gevolgen</div>
+        <div class="card-body">
+          Bedrijven staken productie, toerisme valt stil, landbouw mislukt. Overheden moeten grote noodbudgetten vrijmaken. Verzekeraars keren enorme schadeclaims uit.
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:18px; font-size:0.82rem; color:var(--muted);">Soorten gevolgen op een rij:</p>
+    <div class="tag-list">
+      <span class="tag tag-red">Slachtoffers</span>
+      <span class="tag tag-red">Evacuaties</span>
+      <span class="tag tag-amber">Gewasschade</span>
+      <span class="tag tag-amber">Hoge kosten</span>
+      <span class="tag tag-blue">Erosie</span>
+      <span class="tag tag-blue">Vervuiling</span>
+      <span class="tag tag-teal">Sediment</span>
+      <span class="tag tag-teal">Grondwater aanvulling</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTIE 2 – PIEKAFVOER
+  ═══════════════════════════════════════════ -->
+  <div class="section" id="piekafvoer">
+    <div class="section-header">
+      <div class="section-icon icon-blue">📈</div>
+      <div>
+        <div class="section-sub">Leerdoel 2</div>
+        <h2>Piekafvoer</h2>
+      </div>
+    </div>
+
+    <div class="definitie">
+      <div class="def-label">📖 Definitie</div>
+      <p>Een <strong>piekafvoer</strong> is de kortdurende, sterke toename van de waterafvoer in een rivier. De waterstand stijgt snel tot een maximum — de piek — en daalt daarna weer. Dit kan leiden tot overstromingen van de rivieroever.</p>
+    </div>
+
+    <p style="margin: 16px 0 10px; font-size:0.88rem; color:var(--muted);">Zo ontstaat een piekafvoer — stap voor stap:</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="step-icon">🌧️</div>
+        <div class="step-label">Oorzaak</div>
+        Hevige of langdurige neerslag
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🏙️</div>
+        <div class="step-label">Afvoer</div>
+        Verharde bodem: water stroomt snel af
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">💧</div>
+        <div class="step-label">Verzadiging</div>
+        Bodem verzadigd: geen infiltratie meer
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🌊</div>
+        <div class="step-label">Piek</div>
+        Rivierstand stijgt razendsnel
+      </div>
+    </div>
+
+    <div class="card-grid" style="margin-top:16px;">
+      <div class="card">
+        <div class="card-title">⚡ Factoren die piekafvoer versterken</div>
+        <div class="card-body">
+          <ul style="padding-left:1.1rem; line-height:2;">
+            <li>Grote hoeveelheid neerslag in korte tijd</li>
+            <li>Bebouwing & verharding (asfalt, beton)</li>
+            <li>Ontbossing: geen wortels om water vast te houden</li>
+            <li>Steile hellingen: water stroomt snel de helling af</li>
+            <li>Al verzadigde bodem (na eerdere regen)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🌳 Factoren die piekafvoer verminderen</div>
+        <div class="card-body">
+          <ul style="padding-left:1.1rem; line-height:2;">
+            <li>Bossen en vegetatie: interceptie en infiltratie</li>
+            <li>Doorlatende bodems: water zakt langzaam weg</li>
+            <li>Waterbergingsgebieden: water tijdelijk opvangen</li>
+            <li>Riviermeanders: stroom wordt vertraagd</li>
+            <li>Stuwen en sluizen: gecontroleerde afvoer</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top:16px;">
+      <strong>Let op:</strong> In verstedelijkte gebieden zijn er veel verharde oppervlakken. Regenwater kan niet in de bodem zakken en stroomt direct naar de rivier → de piek is hoger én bereikt de rivier <strong>sneller</strong>.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTIE 3 – KUSTGEBIEDEN
+  ═══════════════════════════════════════════ -->
+  <div class="section" id="kust">
+    <div class="section-header">
+      <div class="section-icon icon-teal">🌏</div>
+      <div>
+        <div class="section-sub">Leerdoel 3</div>
+        <h2>Overstromingen in Kustgebieden</h2>
+      </div>
+    </div>
+
+    <div class="highlight">
+      Kustgebieden overstromen <strong>vaker</strong> dan gebieden verder landinwaarts. Dit heeft te maken met de ligging ten opzichte van de zee, klimaatverandering en menselijke activiteiten.
+    </div>
+
+    <div class="card-grid triple" style="margin-top:16px;">
+      <div class="card">
+        <div class="card-title">🌡️ Zeespiegelstijging</div>
+        <div class="card-body">
+          Door klimaatverandering smelt ijs op de polen. De zeespiegel stijgt waardoor laaggelegen kustgebieden vaker onder water lopen, ook zonder grote storm.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🌀 Stormen & stormvloed</div>
+        <div class="card-body">
+          Orkanen en stormen stuwen enorme hoeveelheden zeewater naar de kust. Deze <em>stormvloed</em> kan dijken overstromen en grote gebieden inunderen.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📉 Bodemdaling</div>
+        <div class="card-body">
+          In deltagebieden (zoals Nederland) daalt de bodem door veenoxidatie en gaswinning. Het land zakt terwijl de zee stijgt: een dubbel risico.
+        </div>
+      </div>
+    </div>
+
+    <div class="kust-visual" style="margin-top:16px;">
+      <div style="font-size:0.8rem; color:var(--muted); margin-bottom:12px; letter-spacing:0.08em; text-transform:uppercase;">Relatieve zeespiegelstijging t.o.v. land</div>
+      <div style="display:flex; align-items:flex-end; gap:18px;">
+        <div style="flex:1;">
+          <div style="font-size:0.75rem; color:var(--muted);">Zeeniveau</div>
+          <div class="sea-level-bar" style="width:100%; background:linear-gradient(90deg, #0077cc, var(--teal));"></div>
+          <div class="sea-label">↑ Stijgt door klimaatverandering</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.75rem; color:var(--muted);">Bodem</div>
+          <div class="sea-level-bar" style="width:78%; background:linear-gradient(90deg, #8b5e3c, #a07850);"></div>
+          <div class="sea-label">↓ Daalt door bodemdaling</div>
+        </div>
+      </div>
+      <div style="margin-top:14px; font-size:0.83rem; color:var(--text); opacity:0.75; line-height:1.6;">
+        ⚠️ Het <strong>verschil</strong> tussen zeeniveau en bodemdaling bepaalt het risico. Als de zee stijgt én de bodem daalt, wordt de drempel voor overstroming steeds kleiner.
+      </div>
+    </div>
+
+    <div class="card-grid" style="margin-top:14px;">
+      <div class="card">
+        <div class="card-title">🏗️ Menselijke factoren</div>
+        <div class="card-body">
+          Veel kustgebieden zijn dichtbevolkt en intensief bebouwd. Er is minder ruimte voor wateropvang. Dijken en beschermingswerken zijn duur en niet altijd voldoende bij extreme omstandigheden.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🗺️ Nederland als voorbeeld</div>
+        <div class="card-body">
+          Ruim 60% van Nederland ligt in het overstromingsgevoelig gebied. De Deltawerken beschermen ons, maar zeespiegelstijging vergroot de uitdaging voor de toekomst.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       QUIZ
+  ═══════════════════════════════════════════ -->
+  <div class="quiz-wrap">
+    <h2>✏️ Test jezelf</h2>
+
+    <!-- V1 -->
+    <div class="quiz-q">
+      <p><strong>1.</strong> Wat is een direct gevolg van een overstroming?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false, 'q1')">Hogere belastingen</button>
+        <button class="quiz-opt" onclick="answer(this, true,  'q1')">Mensen moeten hun huis verlaten</button>
+        <button class="quiz-opt" onclick="answer(this, false, 'q1')">Meer toeristen</button>
+      </div>
+      <div id="q1" class="quiz-feedback"></div>
+    </div>
+
+    <!-- V2 -->
+    <div class="quiz-q">
+      <p><strong>2.</strong> Wat verstaan we onder een piekafvoer?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false, 'q2')">Het gemiddelde waterpeil over een jaar</button>
+        <button class="quiz-opt" onclick="answer(this, false, 'q2')">De hoeveelheid regenwater in de wolken</button>
+        <button class="quiz-opt" onclick="answer(this, true,  'q2')">Een kortdurende sterke stijging van de waterafvoer in een rivier</button>
+      </div>
+      <div id="q2" class="quiz-feedback"></div>
+    </div>
+
+    <!-- V3 -->
+    <div class="quiz-q">
+      <p><strong>3.</strong> Waardoor overstromen kustgebieden vaker dan het binnenland?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false, 'q3')">Ze liggen hoger dan het binnenland</button>
+        <button class="quiz-opt" onclick="answer(this, true,  'q3')">Zeespiegelstijging, stormen en bodemdaling verhogen het risico</button>
+        <button class="quiz-opt" onclick="answer(this, false, 'q3')">Er valt meer regen aan de kust</button>
+      </div>
+      <div id="q3" class="quiz-feedback"></div>
+    </div>
+
+    <!-- V4 -->
+    <div class="quiz-q">
+      <p><strong>4.</strong> Welke factor vergroot een piekafvoer in een stad?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false, 'q4')">Veel bomen in de straten</button>
+        <button class="quiz-opt" onclick="answer(this, true,  'q4')">Verharde oppervlakken zoals asfalt en beton</button>
+        <button class="quiz-opt" onclick="answer(this, false, 'q4')">Doorlatende bodems in parken</button>
+      </div>
+      <div id="q4" class="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Studiegids Overstromingen · Aardrijkskunde</p>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const feedback = {
+  q1: { ok: '✅ Juist! Evacuatie is een direct gevolg — mensen moeten onmiddellijk hun huis verlaten.',
+        nok: '❌ Niet juist. Dit is niet een direct gevolg van een overstroming zelf.' },
+  q2: { ok: '✅ Goed! Een piekafvoer is de snelle, kortdurende stijging van de waterafvoer in een rivier.',
+        nok: '❌ Helaas. Piekafvoer verwijst naar de plotselinge sterke stijging van de afvoer in een rivier.' },
+  q3: { ok: '✅ Correct! Zeespiegelstijging, stormvloeden en bodemdaling zorgen samen voor een hoger risico aan de kust.',
+        nok: '❌ Niet helemaal. Kustgebieden liggen juist laag, en de zee speelt een grote rol bij overstromingen.' },
+  q4: { ok: '✅ Juist! Asfalt en beton zijn waterdicht — regenwater kan niet infiltreren en bereikt de rivier snel.',
+        nok: '❌ Helaas. Verharde oppervlakken vergroten juist de piekafvoer. Bomen en doorlatende grond verminderen het.' }
+};
+
+function answer(btn, correct, qid) {
+  const opts = btn.closest('.quiz-q').querySelectorAll('.quiz-opt');
+  opts.forEach(o => { o.disabled = true; o.style.opacity = '0.6'; });
+  btn.style.opacity = '1';
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  const fb = document.getElementById(qid);
+  fb.textContent = feedback[qid][correct ? 'ok' : 'nok'];
+  fb.className = 'quiz-feedback show ' + (correct ? 'ok' : 'nok');
+}
+</script>
+</body>
+</html>
